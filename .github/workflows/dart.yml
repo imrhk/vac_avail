@@ -31,7 +31,8 @@ jobs:
 
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Run project
-        run: dart run > output.txt 
+        run: |
+             dart run > output.txt 
              if [ `cat output.txt | wc -l | tr ' ' '\0'` -gt 0 ]; then cat output.txt; else cat foo esle; fi
       - name: Send mail through SendGrid
         uses: dawidd6/action-send-mail@v2
