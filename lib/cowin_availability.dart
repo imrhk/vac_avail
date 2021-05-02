@@ -1,22 +1,22 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:timezone/data/latest.dart';
-import 'package:timezone/timezone.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 
 const district_id = 188;
 Future<Null> getAvailability() async {
-  initializeTimeZones();
-  final ist = getLocation('Asia/Kolkata');
-  setLocalLocation(ist);
-  final now = TZDateTime.now(ist);
+  tz.initializeTimeZones();
+  final ist = tz.getLocation('Asia/Kolkata');
+  tz.setLocalLocation(ist);
+  final now = tz.TZDateTime.now(ist);
 
   await Future.wait(Iterable.generate(4)
       .map((e) => _getAvailabilityFromDate(now.add(Duration(days: 7*e))))
       .toList());
 }
 
-Future<Null> _getAvailabilityFromDate(TZDateTime localTime) async {
+Future<Null> _getAvailabilityFromDate(tz.TZDateTime localTime) async {
   final localDay =
       localTime.day <= 9 ? '0${localTime.day}' : localTime.day.toString();
   final localMonth =
@@ -25,7 +25,7 @@ Future<Null> _getAvailabilityFromDate(TZDateTime localTime) async {
 
   final url = Uri.parse(
       'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=$district_id&date=$localDay-$localMonth-$localYear');
-  print(url);
+  //print(url);
   final response =
       await http.get(url.toString(),  headers: {
     'authority': 'cdn-api.co-vin.in',
@@ -44,7 +44,7 @@ Future<Null> _getAvailabilityFromDate(TZDateTime localTime) async {
     'referer': 'https://www.cowin.gov.in/',
     'accept-language': 'en-US,en;q=0.9,es-ES;q=0.8,es;q=0.7',
   });
-  print(response.body);
+  //print(response.body);
   final output = StringBuffer();
   final map = jsonDecode(response.body) as Map;
   final availablePlaces = (map['centers'] as List)
