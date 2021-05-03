@@ -47,13 +47,8 @@ jobs:
           password: ${{secrets.MAIL_PASSWORD}}
           subject: Availability
           content_type: text/html
-          body: <!DOCTYPE html>
-            <html>
-            <body>
-            <p>Available</p>
-            </body>
-            </html>
+          body: Available
           attachments: output.txt
-          to: ${{secrets.MAIL_USERNAME}}
+          bcc: ${{secrets.MAIL_LIST}}
           from: ${{secrets.MAIL_USERNAME}}
 
