@@ -50,6 +50,6 @@ jobs:
           body: Available
           attachments: output.txt
           bcc: ${{secrets.MAIL_LIST}}
-          to: noreply@litedevs.com
+          to: ${{secrets.MAIL_USERNAME}}
           from: ${{secrets.MAIL_USERNAME}}
 
